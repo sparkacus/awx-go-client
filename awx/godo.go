@@ -1,6 +1,7 @@
 package awx
 
 import (
+	"errors"
 	"net/http"
 )
 
@@ -17,6 +18,10 @@ func (s *Client) doRequest(req *http.Request) (*http.Response, error) {
 	resp, err := client.Do(req)
 	if err != nil {
 		return nil, err
+	}
+
+	if resp.StatusCode > 206 {
+		return nil, errors.New(resp.Status)
 	}
 
 	return resp, nil
