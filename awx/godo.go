@@ -12,6 +12,7 @@ type Client struct {
 
 func (s *Client) doRequest(req *http.Request) (*http.Response, error) {
 	req.SetBasicAuth(s.Username, s.Password)
+	req.Header.Set("Content-Type", "application/json")
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
