@@ -132,12 +132,12 @@ type Inventory struct {
 // InventoryCreateRequest represents a request to create a Inventory.
 type InventoryCreateRequest struct {
 	Name               string `json:"name"`
-	Description        string `json:"description"`
+	Description        string `json:"description,omitempty"`
 	Organization       int    `json:"organization"`
-	Kind               string `json:"kind"`
-	HostFilter         string `json:"host_filter"`
-	Variables          string `json:"variables"`
-	InsightsCredential int    `json:"insights_credential"`
+	Kind               string `json:"kind,omitempty"`
+	HostFilter         string `json:"host_filter,omitempty"`
+	Variables          string `json:"variables,omitempty"`
+	InsightsCredential int    `json:"insights_credential,omitempty"`
 }
 
 // InventoryRoot represents a Inventory root
