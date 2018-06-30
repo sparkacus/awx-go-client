@@ -139,8 +139,8 @@ type Organization struct {
 // OrganizationCreateRequest represents a request to create a Organization.
 type OrganizationCreateRequest struct {
 	Name             string `json:"name"`
-	Description      string `json:"description"`
-	CustomVirtualenv string `json:"custom_virtualenv"`
+	Description      string `json:"description,omitempty"`
+	CustomVirtualenv string `json:"custom_virtualenv,omitempty"`
 }
 
 // OrganizationRoot represents a Organization root
