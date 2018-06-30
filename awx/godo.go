@@ -32,6 +32,7 @@ type Client struct {
 	// Services used for communicating with the API
 	Inventory    InventoryService
 	Organization OrganizationService
+	Project      ProjectService
 
 	//Basic Auth
 	Username string
@@ -66,6 +67,7 @@ func NewClient(httpClient *http.Client) *Client {
 	c := &Client{client: httpClient, BaseURL: baseURL, UserAgent: userAgent}
 	c.Inventory = &InventoryServiceOp{client: c}
 	c.Organization = &OrganizationServiceOp{client: c}
+	c.Project = &ProjectServiceOp{client: c}
 
 	return c
 }
@@ -115,9 +117,7 @@ func (c *Client) Do(ctx context.Context, req *http.Request, v interface{}) (*Res
 			err = rerr
 		}
 	}()
-
 	response := newResponse(resp)
-
 	err = CheckResponse(resp)
 	if err != nil {
 		return response, err
@@ -172,7 +172,6 @@ func CheckResponse(r *http.Response) error {
 			errorResponse.Message = string(data)
 		}
 	}
-
 	return errorResponse
 }
 
