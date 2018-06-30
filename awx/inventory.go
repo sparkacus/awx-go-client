@@ -7,7 +7,7 @@ import (
 	"time"
 )
 
-const InventoryBasePath = "api/v2/inventories/"
+const inventoryBasePath = "api/v2/inventories/"
 
 // InventoryService is an interface for interfacing with the Inventory
 // endpoints of the AWX API
@@ -151,7 +151,7 @@ type inventoryRoot struct {
 
 // List all Inventories.
 func (s *InventoryServiceOp) List(ctx context.Context) ([]Inventory, *Response, error) {
-	path := InventoryBasePath
+	path := inventoryBasePath
 	req, err := s.client.NewRequest(ctx, http.MethodGet, path, nil)
 	if err != nil {
 		return nil, nil, err
@@ -166,13 +166,13 @@ func (s *InventoryServiceOp) List(ctx context.Context) ([]Inventory, *Response, 
 	return root.Results, resp, err
 }
 
-// Get individual Droplet.
+// Get individual Inventory.
 func (s *InventoryServiceOp) Get(ctx context.Context, inventoryID int) (*Inventory, *Response, error) {
 	if inventoryID < 1 {
 		return nil, nil, NewArgError("inventoryID", "cannot be less than 1")
 	}
 
-	path := fmt.Sprintf("%s%d/", InventoryBasePath, inventoryID)
+	path := fmt.Sprintf("%s%d/", inventoryBasePath, inventoryID)
 
 	req, err := s.client.NewRequest(ctx, http.MethodGet, path, nil)
 	if err != nil {
@@ -194,7 +194,7 @@ func (s *InventoryServiceOp) Create(ctx context.Context, createRequest *Inventor
 		return nil, nil, NewArgError("createRequest", "cannot be nil")
 	}
 
-	path := InventoryBasePath
+	path := inventoryBasePath
 
 	req, err := s.client.NewRequest(ctx, http.MethodPost, path, createRequest)
 	if err != nil {
@@ -216,7 +216,7 @@ func (s *InventoryServiceOp) Delete(ctx context.Context, inventoryID int) (*Resp
 		return nil, NewArgError("inventoryID", "cannot be less than 1")
 	}
 
-	path := fmt.Sprintf("%s%d/", InventoryBasePath, inventoryID)
+	path := fmt.Sprintf("%s%d/", inventoryBasePath, inventoryID)
 
 	req, err := s.client.NewRequest(ctx, http.MethodDelete, path, nil)
 	if err != nil {
