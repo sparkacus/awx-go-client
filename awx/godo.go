@@ -33,6 +33,7 @@ type Client struct {
 	Inventory    InventoryService
 	Organization OrganizationService
 	Project      ProjectService
+	JobTemplate  JobTemplateService
 
 	//Basic Auth
 	Username string
@@ -68,6 +69,7 @@ func NewClient(httpClient *http.Client) *Client {
 	c.Inventory = &InventoryServiceOp{client: c}
 	c.Organization = &OrganizationServiceOp{client: c}
 	c.Project = &ProjectServiceOp{client: c}
+	c.JobTemplate = &JobTemplateServiceOp{client: c}
 
 	return c
 }
