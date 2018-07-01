@@ -57,6 +57,21 @@ type ErrorResponse struct {
 	RequestID string `json:"request_id"`
 }
 
+// ClientOpt are options for New.
+type ClientOpt func(*Client) error
+
+// New returns a new AWX API client instance.
+func New(httpClient *http.Client, opts ...ClientOpt) (*Client, error) {
+	c := NewClient(httpClient)
+	for _, opt := range opts {
+		if err := opt(c); err != nil {
+			return nil, err
+		}
+	}
+
+	return c, nil
+}
+
 // NewClient returns a new AWX API client.
 func NewClient(httpClient *http.Client) *Client {
 	if httpClient == nil {
