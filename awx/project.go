@@ -16,6 +16,7 @@ type ProjectService interface {
 	List(context.Context) ([]Project, *Response, error)
 	Get(context.Context, int) (*Project, *Response, error)
 	Create(context.Context, *ProjectCreateRequest) (*Project, *Response, error)
+	Update(context.Context, *ProjectCreateRequest, int) (*Response, error)
 	Delete(context.Context, int) (*Response, error)
 }
 
@@ -218,6 +219,27 @@ func (s *ProjectServiceOp) Create(ctx context.Context, createRequest *ProjectCre
 		return nil, resp, err
 	}
 	return root.Project, resp, err
+}
+
+// Update Project.
+func (s *ProjectServiceOp) Update(ctx context.Context, createRequest *ProjectCreateRequest, projectID int) (*Response, error) {
+	if projectID < 1 {
+		return nil, NewArgError("projectID", "cannot be less than 1")
+	}
+	if createRequest == nil {
+		return nil, NewArgError("createRequest", "cannot be nil")
+	}
+
+	path := fmt.Sprintf("%s%d/", projectBasePath, projectID)
+
+	req, err := s.client.NewRequest(ctx, http.MethodPatch, path, createRequest)
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := s.client.Do(ctx, req, nil)
+
+	return resp, err
 }
 
 // Delete Project.

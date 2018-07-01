@@ -16,6 +16,7 @@ type OrganizationService interface {
 	List(context.Context) ([]Organization, *Response, error)
 	Get(context.Context, int) (*Organization, *Response, error)
 	Create(context.Context, *OrganizationCreateRequest) (*Organization, *Response, error)
+	Update(context.Context, *OrganizationCreateRequest, int) (*Response, error)
 	Delete(context.Context, int) (*Response, error)
 }
 
@@ -211,6 +212,27 @@ func (s *OrganizationServiceOp) Create(ctx context.Context, createRequest *Organ
 	}
 
 	return root.Organization, resp, err
+}
+
+// Update Organization.
+func (s *OrganizationServiceOp) Update(ctx context.Context, createRequest *OrganizationCreateRequest, organizationID int) (*Response, error) {
+	if organizationID < 1 {
+		return nil, NewArgError("organizationID", "cannot be less than 1")
+	}
+	if createRequest == nil {
+		return nil, NewArgError("createRequest", "cannot be nil")
+	}
+
+	path := fmt.Sprintf("%s%d/", organizationBasePath, organizationID)
+
+	req, err := s.client.NewRequest(ctx, http.MethodPatch, path, createRequest)
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := s.client.Do(ctx, req, nil)
+
+	return resp, err
 }
 
 // Delete Organization.

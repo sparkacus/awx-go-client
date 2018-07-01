@@ -16,6 +16,7 @@ type InventoryService interface {
 	List(context.Context) ([]Inventory, *Response, error)
 	Get(context.Context, int) (*Inventory, *Response, error)
 	Create(context.Context, *InventoryCreateRequest) (*Inventory, *Response, error)
+	Update(context.Context, *InventoryCreateRequest, int) (*Response, error)
 	Delete(context.Context, int) (*Response, error)
 }
 
@@ -208,6 +209,27 @@ func (s *InventoryServiceOp) Create(ctx context.Context, createRequest *Inventor
 	}
 
 	return root.Inventory, resp, err
+}
+
+// Update Inventory.
+func (s *InventoryServiceOp) Update(ctx context.Context, createRequest *InventoryCreateRequest, inventoryID int) (*Response, error) {
+	if inventoryID < 1 {
+		return nil, NewArgError("inventoryID", "cannot be less than 1")
+	}
+	if createRequest == nil {
+		return nil, NewArgError("createRequest", "cannot be nil")
+	}
+
+	path := fmt.Sprintf("%s%d/", inventoryBasePath, inventoryID)
+
+	req, err := s.client.NewRequest(ctx, http.MethodPatch, path, createRequest)
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := s.client.Do(ctx, req, nil)
+
+	return resp, err
 }
 
 // Delete Inventory.
