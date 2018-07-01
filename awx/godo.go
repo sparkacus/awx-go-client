@@ -57,6 +57,14 @@ type ErrorResponse struct {
 	RequestID string `json:"request_id"`
 }
 
+// SetUserAgent is a client option for setting the user agent.
+func SetUserAgent(ua string) ClientOpt {
+	return func(c *Client) error {
+		c.UserAgent = fmt.Sprintf("%s %s", ua, c.UserAgent)
+		return nil
+	}
+}
+
 // ClientOpt are options for New.
 type ClientOpt func(*Client) error
 
