@@ -30,10 +30,11 @@ type Client struct {
 	UserAgent string
 
 	// Services used for communicating with the API
-	Inventory    InventoryService
-	Organization OrganizationService
-	Project      ProjectService
-	JobTemplate  JobTemplateService
+	Inventory       InventoryService
+	InventorySource InventorySourceService
+	Organization    OrganizationService
+	Project         ProjectService
+	JobTemplate     JobTemplateService
 
 	//Basic Auth
 	Username string
@@ -90,6 +91,7 @@ func NewClient(httpClient *http.Client) *Client {
 
 	c := &Client{client: httpClient, BaseURL: baseURL, UserAgent: userAgent}
 	c.Inventory = &InventoryServiceOp{client: c}
+	c.InventorySource = &InventorySourceServiceOp{client: c}
 	c.Organization = &OrganizationServiceOp{client: c}
 	c.Project = &ProjectServiceOp{client: c}
 	c.JobTemplate = &JobTemplateServiceOp{client: c}
