@@ -251,12 +251,12 @@ func (s *JobTemplateServiceOp) Create(ctx context.Context, createRequest *JobTem
 	if err != nil {
 		return nil, nil, err
 	}
-	root := new(jobTemplateRoot)
+	root := new(JobTemplate)
 	resp, err := s.client.Do(ctx, req, root)
 	if err != nil {
 		return nil, resp, err
 	}
-	return root.JobTemplate, resp, err
+	return root, resp, err
 }
 
 // Update JobTemplate.

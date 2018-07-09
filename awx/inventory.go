@@ -202,13 +202,13 @@ func (s *InventoryServiceOp) Create(ctx context.Context, createRequest *Inventor
 		return nil, nil, err
 	}
 
-	root := new(inventoryRoot)
+	root := new(Inventory)
 	resp, err := s.client.Do(ctx, req, root)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return root.Inventory, resp, err
+	return root, resp, err
 }
 
 // Update Inventory.

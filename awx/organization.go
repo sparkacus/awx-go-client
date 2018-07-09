@@ -205,13 +205,13 @@ func (s *OrganizationServiceOp) Create(ctx context.Context, createRequest *Organ
 		return nil, nil, err
 	}
 
-	root := new(organizationRoot)
+	root := new(Organization)
 	resp, err := s.client.Do(ctx, req, root)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return root.Organization, resp, err
+	return root, resp, err
 }
 
 // Update Organization.
